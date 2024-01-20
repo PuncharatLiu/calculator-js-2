@@ -15,6 +15,7 @@ body {
 .calculator-button {
     width: 100%;
     height: 70px;
+    font-size: 2rem;
 }
 
 .row {
@@ -30,9 +31,17 @@ body {
 #calculator-screen{
     width: 392px;
     height: 50px;
+    font-size: 2.3rem;
 }
 
 #history {
     color: red;
+    text-align: right;
+    font-size: 1.5rem;
+}
+
+#error-display{
+    color: red;
+    font-size: 1.2rem;
     text-align: right;
 }

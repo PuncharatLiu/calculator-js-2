@@ -8,9 +8,10 @@
 </head>
 <body>
     <div id="container" class="container">
-        
-        <div id="history">0</div>
-        <input type="text" id="calculator-screen">
+
+        <!-- <div id="history">0</div> -->
+        <input type="text" id="calculator-screen" value="0">
+        <!-- <div id="error-display">0</div> -->
 
         <div class="button">
             <div class="row">
@@ -24,7 +25,7 @@
                 <button class="calculator-button" onclick="getData('4');">4</button>
                 <button class="calculator-button" onclick="getData('5');">5</button>
                 <button class="calculator-button" onclick="getData('6');">6</button>
-                <button class="calculator-button operator-button" onclick="getData(7);">*</button>
+                <button class="calculator-button operator-button" onclick="getData('*');">*</button>
             </div>
 
             <div class="row">
@@ -37,7 +38,7 @@
             <div class="row">
                 <button class="calculator-button btn" onclick="getData('.');">.</button>
                 <button class="calculator-button" onclick="getData('0');">0</button>
-                <button class="calculator-button btn" onclick="displayHistory(); callCalculateFunction();">=</button>
+                <button class="calculator-button btn" onclick="calculate();">=</button>
                 <button class="calculator-button operator-button" onclick="getData('+');">+</button>
             </div>
 
@@ -47,7 +48,7 @@
             </div>
         </div>
     </div>
-<script src="script.js"></script>
+<script src="main.js"></script>
 </body>
 </html>
 
