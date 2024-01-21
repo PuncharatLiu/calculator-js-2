@@ -12,6 +12,11 @@ let secondNumber = '0';     // Store number after pressing operator button.
 let operation = '';         // Store operator to be operation. 
 let changeState = false;    // If 'false' do state 1, If 'ture' do state 2.
 let result = '0'            // To store the result.
+let firstOperater = true;
+let after = true;
+let afterTwo = true;
+let isCal = false;
+let isClickCalculateButton = true;
 
 function getData(data){
     currentData = data;
@@ -28,15 +33,27 @@ function getData(data){
                  // Change the defult screen value with number pressing 
                 if (firstNumber === '0' && currentData !== '.' ) {
                     firstNumber = currentData;
+                    isClickCalculateButton = true;
+
+                    console.log('from 1')
                  
-                 // Add decimal.
-                } else if ( firstNumber === '.') {
+                 
+                } else if (currentData === '.' && firstNumber.includes('.')) {
+                    return;
+                    
+                    // Add decimal.
+                } else if ( firstNumber === '0') {
                     firstNumber += '.'
+
+                    console.log('from 2')
 
                  // Add number
                 } else {
                  firstNumber += currentData;
+                 isClickCalculateButton = true;
 
+
+                 console.log('from 3')
                 }
                  
                 // Show the first number to screen.
@@ -44,11 +61,23 @@ function getData(data){
                 
              // Store operator
             } else if (operator.includes(currentData)) {
+                if (isClickCalculateButton) {
+                    calculate();
+                    isClickCalculateButton = false; 
+                    after = false;
+                    afterTwo = false;
+                    switchData = true;
+                    secondNumber = '';
+                }
                 operation = currentData;
                  
                 switchData = true; // To accress second number.
 
+                console.log('from 4')
+
             }
+        
+            console.log('from data 1')
         
             
         // After operator 
@@ -56,112 +85,276 @@ function getData(data){
             
              // Change the operator. 
             if (operator.includes(currentData)) {
+                if (isClickCalculateButton) {
+                    calculate();
+                    isClickCalculateButton = false;
+                    after = false;
+                    afterTwo = false;
+                    switchData = true;
+                    secondNumber = '';
+                }
                 operation = currentData;
 
-             // reassign value to second number.
-            } else if (secondNumber === '0'){
-                secondNumber = currentData;
-            
-             // Add other number pressing to second number. 
-            } else {
-                secondNumber += currentData;
+                console.log('from 5')
 
+            } else {
+                        
+                if ( secondNumber === '0' || secondNumber === '' && currentData === '.') {
+                    secondNumber = '0.';
+
+                    console.log('from 6')
+
+                    // decimal point handing
+                } else if (currentData === '.' && secondNumber.includes('.')) {
+                    return;
+
+                    // reassign value to second number.
+                } else if (secondNumber === '0'){
+                    secondNumber = currentData;
+                    isClickCalculateButton = true;
+
+                    console.log('from 7')
+                
+                    // Add other number pressing to second number. 
+                } else {
+                    secondNumber += currentData;
+                    isClickCalculateButton = true;
+
+                    console.log('from 8')
+
+                }
+                
+                isCal = true;
             }
              // Show second number to screen after pressing number
             if (!operator.includes(currentData)) {
                 mainScreen.value = secondNumber;
+
+                console.log('from 9')
             }
+
+            console.log('from data 2')
          
-        }  // ========== End of first state ========== //
+        } 
     
+        console.log('from first state');
 
         // Second state, when pressing calculator button.
     } else if (changeState) {
-         // After calculate, if pressing number it will show the new number to screen.
-        if (number.includes(currentData)) {
-            result = currentData;
-            mainScreen.value = result;
-
-         // Store operator for the next calculation
-        } else if (operator.includes(currentData)) {
+       
+        if (operator.includes(currentData)) {
+            if (isClickCalculateButton) {
+                calculate();
+                isClickCalculateButton = false;
+                after = false;
+                afterTwo = false;
+                switchData = true;
+                secondNumber = '';
+            }
             operation = currentData;
             switchData = true;      // To tell that next I will store in second number.
+            after = false;
+            // after = true;
+
+            console.log('from 13')
 
          // Store in second number.
-        } else if (switchData && number.includes(currentData)) {
-            if (secondNumber === '0') {
-                firstNumber = currentData;
-            } else {
-                secondNumber += currentData;
+        
+        // After calculate, if pressing number it will show the new number to screen.
+        } else if (after && !operator.includes(currentData)) {
+            result = '';
+
+            if (currentData === '.') {
+                result = '0.';
+                after = false;
+                mainScreen.value = result;
+
+                console.log('from 10')
+                
+            } else if (number.includes(currentData)) {
+                result = currentData;
+                after = false;
+                mainScreen.value = result;
+                isClickCalculateButton = true;
+
+                console.log('from 11')
+
             }
 
+        } else if (result.includes('.') && currentData === '.') {
+            return;
+
+        } else if (!switchData && number.includes(currentData) || currentData === '.' && !switchData) {
+            result += currentData;
+            mainScreen.value = result;
+            isClickCalculateButton = true;
+
+            console.log('from 12');
+
+        } else if (operator.includes(currentData) && !after) {
+            if (isClickCalculateButton) {
+                calculate();
+                isClickCalculateButton = false;
+                after = false;
+                afterTwo = false;
+                switchData = true;
+                secondNumber = '';
+            }
+            operation = currentData;
+            switchData = true;      // To tell that next I will store in second number.
+            // after = true;
+
+            console.log('from 13')
+
+         // Store in second number.
+        } else if (switchData && !operator.includes(currentData)) {
+            if (afterTwo && !operator.includes(currentData)) {
+                secondNumber = '';
+
+                if (currentData === '.') {
+                    secondNumber = '0.';
+                    afterTwo = false;
+
+                    console.log('from 14')
+
+                } else if (number.includes(currentData)) {
+                    secondNumber = currentData;
+                    afterTwo = false;
+                    isClickCalculateButton = true;
+
+                    console.log('from 15')
+
+                }
+                mainScreen.value = secondNumber;
+
+            } else if (currentData === '.' && secondNumber.includes('.')) {
+                return;
+
+            } else if (number.includes(currentData) || currentData === '.') {
+                secondNumber += currentData;
+                isClickCalculateButton = true;
+
+                console.log('from 16')
+
+            }
+
+            mainScreen.value = secondNumber;
+  
         }
         
-    } // ========== End second state ========== //
+        console.log('from second state.');
+    } 
 
-
-    // Test 
 console.log(firstNumber, secondNumber, result, operation);
 }
 
 // To calculate
 function calculate() {
-    
+      
     /* 
         I use firstNumber and secondNumber in first state. After calculation I  use the second calculation state which use the 'result' from first calculate 
     */
      
      // ========== First calculation state. ========== // 
-    if (!changeState) {
     
-        if (operation === '+') {
-            result = parseFloat(firstNumber) + parseFloat(secondNumber);
-            result = result.toString();
+    if (isCal) {
+        if (!changeState) {
+        
+            if (operation === '+') {
+                result = parseFloat(firstNumber) + parseFloat(secondNumber);
+                result = result.toString();
+                mainScreen.value = result;
 
-        } else if ( operation === '-') {
-            result = parseFloat(firstNumber) - parseFloat(secondNumber);
-            result = result.toString();
+                console.log('from 17')
 
-        } else if ( operation === '*') {
-            result = parseFloat(firstNumber) * parseFloat(secondNumber);
-            result = result.toString();
+            } else if ( operation === '-') {
+                result = parseFloat(firstNumber) - parseFloat(secondNumber);
+                result = result.toString();
+                mainScreen.value = result;
 
-        } else if ( operation === '/') {
-            result = parseFloat(firstNumber) / parseFloat(secondNumber);
-            result = result.toString();
+                console.log('from 18')
 
-        } // =========== End of first calculation state. ========== // 
+            } else if ( operation === '*') {
+                result = parseFloat(firstNumber) * parseFloat(secondNumber);
+                result = result.toString();
+                mainScreen.value = result;
 
-     // ========== Second calculation state ========== //
-    } else if (changeState) {
-        if (operation === '+') {
-            result = parseFloat(result) + parseFloat(secondNumber);
-            result = result.toString();
+                console.log('from 19')
 
-        } else if (operation === '-') {
-            result = parseFloat(result) + parseFloat(secondNumber);
-            result = result.toString();
+            } else if ( operation === '/') {
+                if (secondNumber === '0') {
+                    alert('Error. click ok to reset.')
+                    resetCalculator();
+                    error = false;
+                   
+                    console.log('from 20')
+                    return;
 
-        } else if (operation === '*') {
-            result = parseFloat(result) + parseFloat(secondNumber);
-            result = result.toString();
+                } else {
+                    result = parseFloat(firstNumber) / parseFloat(secondNumber);
+                    result = result.toString();
+                    mainScreen.value = result;
 
-        } else if (operation === '/') {
-            result = parseFloat(result) + parseFloat(secondNumber);
-            result = result.toString();
+                    console.log('from 21')
+                }
+
+            } 
+
+        // ========== Second calculation state ========== //
+        } else if (changeState) {
+            if (operation === '+') {
+                result = parseFloat(result) + parseFloat(secondNumber);
+                result = result.toString();
+                mainScreen.value = result;
+
+                console.log('from 22')
+
+            } else if (operation === '-') {
+                result = parseFloat(result) - parseFloat(secondNumber);
+                result = result.toString();
+                mainScreen.value = result;
+
+                console.log('frome 23')
+
+            } else if (operation === '*') {
+                result = parseFloat(result) * parseFloat(secondNumber);
+                result = result.toString();
+                mainScreen.value = result;
+
+                console.log('from 24')
+
+            } else if (operation === '/') {
+                if (secondNumber === '0') {
+                    alert('Error. click ok to reset.');
+                    resetCalculator();
+                    error = false;
+                    
+                    console.log('from 25')
+                    return;
+
+                } else {
+                    result = parseFloat(result) / parseFloat(secondNumber);
+                    result = result.toString();
+                    mainScreen.value = result;
+
+                    console.log('from 26')
+
+                }
+
+            }
 
         }
-
-    } // ========== End ============//
-    
-    mainScreen.value = result; // Show result to screen.
-    changeState = true; // set defult to 'true'  
-    switchData = false;
-
+        
+        changeState = true; // set defult to 'true'
+        switchData = false;
+        isClickCalculateButton = false;
+        after = true;
+        afterTwo = true;
+    }
 }
 
  // clear all show number.
-function clearAllInput(){
+function resetCalculator(){
     
     // Set everything to defult value;
     firstNumber = '0';
@@ -170,6 +363,13 @@ function clearAllInput(){
     switchData = false;
     changeState = false;
     result = '0'
+    firstOperater = true;
+    after = true;
+    afterTwo = true;
+    isCal = false;
+    isClickCalculateButton = true;
+    error = false;
     mainScreen.value = '0'; 
+    console.log('from 27')
 
 }
