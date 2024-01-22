@@ -29,30 +29,32 @@ function getData(data){
             
              // Check is it number? 
             if (number.includes(currentData)){
-                
-                 // Change the defult screen value with number pressing 
+                    
+                // Change the defult screen value with number pressing 
                 if (firstNumber === '0' && currentData !== '.' ) {
                     firstNumber = currentData;
                     isClickCalculateButton = true;
 
+                    // test
                     console.log('from 1')
-                 
-                 
+                     
+                // check if in firstNumber alredry has '.' and return.
                 } else if (currentData === '.' && firstNumber.includes('.')) {
                     return;
                     
-                    // Add decimal.
+                // Add decimal.
                 } else if ( firstNumber === '0') {
                     firstNumber += '.'
 
+                    // test
                     console.log('from 2')
 
-                 // Add number
+                // Add number
                 } else {
                  firstNumber += currentData;
                  isClickCalculateButton = true;
 
-
+                // test
                  console.log('from 3')
                 }
                  
@@ -61,6 +63,8 @@ function getData(data){
                 
              // Store operator
             } else if (operator.includes(currentData)) {
+                
+                // when click operator button it calculate 
                 if (isClickCalculateButton) {
                     calculate();
                     isClickCalculateButton = false; 
@@ -69,14 +73,16 @@ function getData(data){
                     switchData = true;
                     secondNumber = '';
                 }
+
                 operation = currentData;
-                 
                 switchData = true; // To accress second number.
 
+                // test
                 console.log('from 4')
 
             }
         
+            // test
             console.log('from data 1')
         
             
@@ -85,6 +91,7 @@ function getData(data){
             
              // Change the operator. 
             if (operator.includes(currentData)) {
+                
                 if (isClickCalculateButton) {
                     calculate();
                     isClickCalculateButton = false;
@@ -93,18 +100,22 @@ function getData(data){
                     switchData = true;
                     secondNumber = '';
                 }
+
                 operation = currentData;
 
+                // test
                 console.log('from 5')
 
             } else {
                         
                 if ( secondNumber === '0' || secondNumber === '' && currentData === '.') {
+                    
                     secondNumber = '0.';
 
+                    // test
                     console.log('from 6')
 
-                    // decimal point handing
+                // decimal point handing
                 } else if (currentData === '.' && secondNumber.includes('.')) {
                     return;
 
@@ -124,24 +135,27 @@ function getData(data){
 
                 }
                 
+                // allow calculate when click operator when number store in second number. 
                 isCal = true;
             }
              // Show second number to screen after pressing number
             if (!operator.includes(currentData)) {
                 mainScreen.value = secondNumber;
 
+                // test
                 console.log('from 9')
             }
 
+            // test
             console.log('from data 2')
          
         } 
     
+        // test
         console.log('from first state');
 
         // Second state, when pressing calculator button.
     } else if (changeState) {
-       
         if (operator.includes(currentData)) {
             if (isClickCalculateButton) {
                 calculate();
@@ -156,9 +170,8 @@ function getData(data){
             after = false;
             // after = true;
 
+            // test 
             console.log('from 13')
-
-         // Store in second number.
         
         // After calculate, if pressing number it will show the new number to screen.
         } else if (after && !operator.includes(currentData)) {
@@ -169,6 +182,7 @@ function getData(data){
                 after = false;
                 mainScreen.value = result;
 
+                // test
                 console.log('from 10')
                 
             } else if (number.includes(currentData)) {
@@ -177,11 +191,15 @@ function getData(data){
                 mainScreen.value = result;
                 isClickCalculateButton = true;
 
+                // test
                 console.log('from 11')
 
             }
 
-        } else if (result.includes('.') && currentData === '.') {
+        } else if (result.includes('.') && currentData === '.' && !switchData) {
+           
+            //test
+            console.log('from this');
             return;
 
         } else if (!switchData && number.includes(currentData) || currentData === '.' && !switchData) {
@@ -189,9 +207,11 @@ function getData(data){
             mainScreen.value = result;
             isClickCalculateButton = true;
 
+            // test
             console.log('from 12');
 
         } else if (operator.includes(currentData) && !after) {
+            
             if (isClickCalculateButton) {
                 calculate();
                 isClickCalculateButton = false;
@@ -204,6 +224,7 @@ function getData(data){
             switchData = true;      // To tell that next I will store in second number.
             // after = true;
 
+            // test
             console.log('from 13')
 
          // Store in second number.
@@ -215,6 +236,7 @@ function getData(data){
                     secondNumber = '0.';
                     afterTwo = false;
 
+                    // test
                     console.log('from 14')
 
                 } else if (number.includes(currentData)) {
@@ -222,18 +244,23 @@ function getData(data){
                     afterTwo = false;
                     isClickCalculateButton = true;
 
+                    // test 
                     console.log('from 15')
 
                 }
                 mainScreen.value = secondNumber;
 
             } else if (currentData === '.' && secondNumber.includes('.')) {
+                
+                // test 
+                console.log('stop here');
                 return;
 
             } else if (number.includes(currentData) || currentData === '.') {
                 secondNumber += currentData;
                 isClickCalculateButton = true;
 
+                // test
                 console.log('from 16')
 
             }
@@ -242,6 +269,7 @@ function getData(data){
   
         }
         
+        // test
         console.log('from second state.');
     } 
 
@@ -250,12 +278,6 @@ console.log(firstNumber, secondNumber, result, operation);
 
 // To calculate
 function calculate() {
-      
-    /* 
-        I use firstNumber and secondNumber in first state. After calculation I  use the second calculation state which use the 'result' from first calculate 
-    */
-     
-     // ========== First calculation state. ========== // 
     
     if (isCal) {
         if (!changeState) {
@@ -265,6 +287,7 @@ function calculate() {
                 result = result.toString();
                 mainScreen.value = result;
 
+                // test
                 console.log('from 17')
 
             } else if ( operation === '-') {
@@ -272,6 +295,7 @@ function calculate() {
                 result = result.toString();
                 mainScreen.value = result;
 
+                // test
                 console.log('from 18')
 
             } else if ( operation === '*') {
@@ -279,15 +303,21 @@ function calculate() {
                 result = result.toString();
                 mainScreen.value = result;
 
+                // test
                 console.log('from 19')
 
             } else if ( operation === '/') {
+                // if devide by 0, send Error.
                 if (secondNumber === '0') {
                     alert('Error. click ok to reset.')
-                    resetCalculator();
-                    error = false;
                    
+                    // reset calculator after alert massage.
+                    resetCalculator();
+                   
+                    // test
                     console.log('from 20')
+                    
+                    // finish the program.
                     return;
 
                 } else {
@@ -295,6 +325,7 @@ function calculate() {
                     result = result.toString();
                     mainScreen.value = result;
 
+                    // test
                     console.log('from 21')
                 }
 
@@ -307,6 +338,7 @@ function calculate() {
                 result = result.toString();
                 mainScreen.value = result;
 
+                // test 
                 console.log('from 22')
 
             } else if (operation === '-') {
@@ -314,6 +346,7 @@ function calculate() {
                 result = result.toString();
                 mainScreen.value = result;
 
+                // test
                 console.log('frome 23')
 
             } else if (operation === '*') {
@@ -321,15 +354,18 @@ function calculate() {
                 result = result.toString();
                 mainScreen.value = result;
 
+                // test
                 console.log('from 24')
 
             } else if (operation === '/') {
                 if (secondNumber === '0') {
                     alert('Error. click ok to reset.');
                     resetCalculator();
-                    error = false;
                     
+                    // test
                     console.log('from 25')
+                    
+                    // finish the program
                     return;
 
                 } else {
@@ -337,6 +373,7 @@ function calculate() {
                     result = result.toString();
                     mainScreen.value = result;
 
+                    // test
                     console.log('from 26')
 
                 }
